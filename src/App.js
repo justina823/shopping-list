@@ -3,20 +3,24 @@ import './index.css';
 import { VscTrash } from "react-icons/vsc";
 import { GoChevronLeft,GoChevronRight } from "react-icons/go";
 import { IoIosRadioButtonOff,IoIosCheckmarkCircle,IoIosAddCircleOutline } from "react-icons/io";
+import {v1 as uuid} from "uuid";
 const App = () => {
 	// HINT: each "item" in our list names a name, a boolean to tell if its been completed, and a quantity
 	const [items, setItems] = useState([
-        {itemName:1,quantity:1,isSelected:false}
+        
     ]);
     const [inputValue, setInputValue] = useState('')
     const [totalItemCount,setTotolItemCount]=useState(0)
+    
     const handleAddButtonClick =()=>{
         const newItem={
+            id: uuid(),
             itemName:inputValue,
             quantity: 1,
             isSelected:false
        
         }
+       
         calculateTotal()
         //copy exits array and add new item
         const newItems =[...items, newItem]
@@ -32,7 +36,10 @@ const App = () => {
     }
     const handleQuantityDecrease=(index)=>{
         const newItems =[...items]
-        newItems[index].quantity--
+        if(newItems[index].quantity>1)
+            newItems[index].quantity--
+        else
+            delete newItems[index]
         setItems(newItems)
         calculateTotal()
     }
@@ -42,6 +49,7 @@ const App = () => {
         delete newItems[index]
         setItems(newItems)
         calculateTotal()
+
     }
 
     const toggleComplete =(index)=>{
@@ -69,7 +77,9 @@ const App = () => {
 					<IoIosAddCircleOutline onClick={handleAddButtonClick} />
 				</div>
 				<div className='item-list'>
+                    
                     {items.map((item, index)=>
+                   
                         <div className='item-container'>
                         <div className='item-name' onClick={()=>toggleComplete(index)}>
                             {/* HINT: replace false with a boolean indicating the item has been completed or not */}
