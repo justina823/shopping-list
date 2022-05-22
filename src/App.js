@@ -38,7 +38,7 @@ const App = () => {
         const newItems =[...items]
         if(newItems[index].quantity>1)
             newItems[index].quantity--
-        else
+        else 
             delete newItems[index]
         setItems(newItems)
         calculateTotal()
